@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cardHorizontalMargin">20dp</dimen>
+    <dimen name="cardVerticalMargin">15dp</dimen>
+    <dimen name="editTextVerticalMargin">15dp</dimen>
+    <dimen name="cardViewElevation">2dp</dimen>
+    <dimen name="cardCornerRadius">10dp</dimen>
+    <dimen name="signUpButton_marginTop">15dp</dimen>
+    <dimen name="signinSignUp_marginHorizontal">15dp</dimen>
+    <dimen name="mediumTextSize">18sp</dimen>
+    <dimen name="pbSize">60dp</dimen>
+</resources>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarFlownixSignUp"
+        android:background="@color/primary_app_color"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:gravity="center_vertical"
+        android:paddingTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivSignupImage"
+        android:src="@drawable/signup_image"
+        android:layout_marginHorizontal="26dp"
+        android:layout_marginTop="30dp"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbarFlownixSignUp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/cardHorizontalMargin"
+        android:layout_marginVertical="@dimen/cardVerticalMargin"
+        android:elevation="@dimen/cardViewElevation"
+        app:cardCornerRadius="@dimen/cardCornerRadius"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivSignupImage">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="20dp"
+            android:layout_marginHorizontal="10dp">
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/editTextVerticalMargin"
+                android:hint="@string/name"
+                android:maxLines="1"
+                android:inputType="textPersonName"
+                android:textColorHint="@color/text_color"/>
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/editTextVerticalMargin"
+                android:hint="@string/email"
+                android:maxLines="1"
+                android:inputType="textEmailAddress"
+                android:textColorHint="@color/text_color"/>
+
+            <EditText
+                android:id="@+id/et_password_Signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/editTextVerticalMargin"
+                android:hint="@string/password"
+                android:maxLines="1"
+                android:drawableEnd="@drawable/ic_eye_hide"
+                android:inputType="textPassword"
+                android:textColorHint="@color/text_color"/>
+
+            <TextView
+                android:id="@+id/btnSignUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SIGN UP"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:paddingVertical="15dp"
+                android:textSize="20sp"
+                android:layout_marginTop="@dimen/signUpButton_marginTop"
+                android:background="@drawable/shape_button_rounded"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/signUpButton_marginTop">
+
+                <TextView
+                    android:id="@+id/tvNavtoSignin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Already have an account?"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:paddingEnd="4dp" />
+
+                <TextView
+                    android:id="@+id/tvSignInLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sign In"
+                    android:textSize="16sp"
+                    android:textColor="@color/primary_app_color"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Progress overlay moved to the end to ensure it appears on top -->
+    <FrameLayout
+        android:id="@+id/progressOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80000000"
+        android:visibility="gone"
+        android:elevation="10dp"
+        tools:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ProgressBar
+            android:id="@+id/pbSignUp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/black"/>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

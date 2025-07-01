@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Basic -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Theme Colors -->
+    <color name="primary_app_color">#2D3E50</color> <!-- Soft Navy -->
+    <color name="gold_accent">#F5C85D</color>     <!-- Swedish gold -->
+    <color name="warm_gray">#EAEAEA</color>       <!-- Secondary -->
+
+    <!-- Material-compatible extensions -->
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_secondary">#2D3E50</color>
+    <color name="background_light">#FFFFFF</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="on_background">#2D3E50</color>
+
+    <!-- Text / Error -->
+    <color name="text_color">#ABADB1</color>
+    <color name="secondary_text_color">#7A8089</color>
+    <color name="snackbar_error_color">#F72400</color>
 </resources>

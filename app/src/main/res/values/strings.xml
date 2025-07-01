@@ -1,3 +1,39 @@
 <resources>
     <string name="app_name">NordResa</string>
+    <string name="Search">Search Here</string>
+    <string name="home">Home</string>
+    <string name="Cart">Cart</string>
+    <string name="user">Profile</string>
+    <string name="profile">Profile</string>
+    <string name="profile_text">Welcome To The Profile</string>
+    <string name="item_qty">Qty :</string>
+    <string name="my_cart">My Cart</string>
+    <string name="orderSummary">Order Summary</string>
+    <string name="Pay">Pay Amount</string>
+    <string name="change_address">Change Address</string>
+    <string name="Payment_details">Payment Details</string>
+    <string name="tvMRPtag">MRP Total</string>
+    <string name="tvShippingTag">Shipping/Delivery Charges</string>
+    <string name="tvTotalPayable">Total Payable</string>
+    <string name="tvMRP">₹%d</string>
+    <string name="tvShippingCharge">₹</string>
+    <string name="tvTotalPayableAmount">₹</string>
+    <string name="total_payable">₹%1$d</string>
+    <string name="password">Password</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="signUp_message">Enter your name,email id and password,to register with us.</string>
+    <string name="about_arrow">right_arrow</string>
+    <string name="more_info_arrow">right_arrow_more_info</string>
+    <string name="personal_icon">user</string>
+    <string name="delivery_icon">delivery_icon</string>
+    <string name="notification_arrow">notification_arrow</string>
+    <string name="about_icon">about_icon</string>
+    <string name="logout_icon">logout_icon</string>
+    <string name="notification_icon">notification_icon</string>
+    <string name="delivery_arrow">delivery_arrow</string>
+    <string name="personal_arrow">personal_arrow</string>
+
 </resources>

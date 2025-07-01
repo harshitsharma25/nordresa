@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Main body (train/metro) -->
+    <path
+        android:fillColor="@color/primary_app_color"
+        android:pathData="M4,6 L20,6 A2,2 0 0,1 22,8 L22,16 A2,2 0 0,1 20,18 L4,18 A2,2 0 0,1 2,16 L2,8 A2,2 0 0,1 4,6 Z" />
+
+    <!-- Windows -->
+    <path
+        android:fillColor="@color/white"
+        android:pathData="M5,8 L8,8 A1,1 0 0,1 9,9 L9,12 A1,1 0 0,1 8,13 L5,13 A1,1 0 0,1 4,12 L4,9 A1,1 0 0,1 5,8 Z" />
+
+    <path
+        android:fillColor="@color/white"
+        android:pathData="M16,8 L19,8 A1,1 0 0,1 20,9 L20,12 A1,1 0 0,1 19,13 L16,13 A1,1 0 0,1 15,12 L15,9 A1,1 0 0,1 16,8 Z" />
+
+    <!-- Door -->
+    <path
+        android:fillColor="@color/gold_accent"
+        android:pathData="M10,8 L14,8 A0.5,0.5 0 0,1 14.5,8.5 L14.5,17.5 A0.5,0.5 0 0,1 14,18 L10,18 A0.5,0.5 0 0,1 9.5,17.5 L9.5,8.5 A0.5,0.5 0 0,1 10,8 Z" />
+
+    <!-- Wheels (circles replaced with path) -->
+    <path
+        android:fillColor="@color/primary_app_color"
+        android:pathData="M7,19 m-2,0 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0" />
+
+    <path
+        android:fillColor="@color/primary_app_color"
+        android:pathData="M17,19 m-2,0 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0" />
+
+    <!-- Wave element (representing Stockholm's waterways) -->
+    <path
+        android:fillColor="@color/gold_accent"
+        android:pathData="M2,3 Q6,1 12,3 Q18,5 22,3 L22,5 Q18,3 12,5 Q6,7 2,5 Z"
+        android:alpha="0.7" />
+
+</vector>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
+
+    <!-- Background Wave Elements -->
+    <View
+        android:id="@+id/backgroundWave1"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/wave_shape_1"
+        android:alpha="0.1" />
+
+    <View
+        android:id="@+id/backgroundWave2"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/wave_shape_2"
+        android:alpha="0.1" />
+
+    <!-- Main Content Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingHorizontal="40dp">
+
+        <!-- Transport Icon -->
+        <ImageView
+            android:id="@+id/transportIcon"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_transport_nordic"
+            android:layout_marginBottom="32dp"
+            android:contentDescription="NordResa Transport Icon" />
+
+        <!-- App Name Container -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/appNameNord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nord"
+                android:textSize="36sp"
+                android:textColor="@color/primary_app_color"
+                android:fontFamily="@font/roboto_bold"
+                android:letterSpacing="0.02" />
+
+            <TextView
+                android:id="@+id/appNameResa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resa"
+                android:textSize="36sp"
+                android:textColor="@color/gold_accent"
+                android:fontFamily="@font/roboto_bold"
+                android:letterSpacing="0.02"
+                android:layout_marginStart="4dp" />
+
+        </LinearLayout>
+
+        <!-- Stockholm Accent Line -->
+        <View
+            android:id="@+id/stockholmAccent"
+            android:layout_width="120dp"
+            android:layout_height="3dp"
+            android:background="@drawable/gradient_accent_line"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Tagline -->
+        <TextView
+            android:id="@+id/taglineText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Stockholm Journey Companion"
+            android:textSize="14sp"
+            android:textColor="@color/warm_gray"
+            android:fontFamily="@font/roboto_regular"
+            android:letterSpacing="0.05"
+            android:gravity="center"
+            android:layout_marginBottom="48dp"
+            android:alpha="0.8" />
+
+    </LinearLayout>
+
+    <!-- Loading Section -->
+    <LinearLayout
+        android:id="@+id/loadingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="80dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingHorizontal="40dp">
+
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="200dp"
+            android:layout_height="4dp"
+            android:layout_marginBottom="20dp"
+            android:progressTint="@color/gold_accent"
+            android:progressBackgroundTint="@color/warm_gray"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="0" />
+
+        <!-- Loading Dots -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <View
+                android:id="@+id/loadingDot1"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:background="@drawable/loading_dot"
+                android:layout_marginEnd="8dp" />
+
+            <View
+                android:id="@+id/loadingDot2"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:background="@drawable/loading_dot"
+                android:layout_marginEnd="8dp" />
+
+            <View
+                android:id="@+id/loadingDot3"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:background="@drawable/loading_dot" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Version Info -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:text="v1.0.0"
+        android:textSize="10sp"
+        android:textColor="@color/warm_gray"
+        android:alpha="0.6" />
+
+</RelativeLayout>
