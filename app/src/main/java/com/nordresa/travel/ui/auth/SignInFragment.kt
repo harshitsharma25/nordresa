@@ -68,15 +68,17 @@ class SignInFragment : BaseFragment<FragmentSigninBinding>() {
     private fun signInUser(){
         val email : String = binding.etEmailSignin.text.toString().trim{ it <= ' '}
         val password : String = binding.etPasswordSignin.text.toString().trim{ it <= ' '}
-        val progressBar : ProgressBar = binding.pbSeries
+        val progressBar : ProgressBar = binding.pbSignIn
 
         if(validForm(email,password)){
             showProgressBar(progressBar)
+            binding.progressOverlay.visibility = View.VISIBLE
 
             FirebaseAuth.getInstance()
                 .signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener { task ->
                     hideProgressBar(progressBar)
+                    binding.progressOverlay.visibility = View.GONE
                     if(task.isSuccessful){
                         findNavController().navigate(R.id.action_signInFragment_to_homeFragment)
                     } else{
@@ -87,6 +89,7 @@ class SignInFragment : BaseFragment<FragmentSigninBinding>() {
                     }
                 }.addOnFailureListener { exception ->
                     hideProgressBar(progressBar)
+                    binding.progressOverlay.visibility = View.GONE
                     Toast.makeText(requireContext(), exception.message, Toast.LENGTH_SHORT).show()
                 }
         }

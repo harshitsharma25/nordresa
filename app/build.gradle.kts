@@ -4,6 +4,8 @@ plugins {
 
     alias(libs.plugins.ksp)
     id("com.google.gms.google-services")
+    id("kotlin-parcelize")
+    id("androidx.navigation.safeargs.kotlin") version "2.7.7"
 }
 
 android {
@@ -88,4 +90,12 @@ dependencies {
     implementation ("com.google.devtools.ksp:symbol-processing-api:2.0.10-1.0.24")
 
     implementation ("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    implementation ("io.insert-koin:koin-android:3.5.3")
+
+    // safe-args
+
+
+
+
 }

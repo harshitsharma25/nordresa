@@ -5,14 +5,96 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/homeFragment">
 
-
+   <!-- home -->
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.nordresa.travel.ui.home.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home">
 
+        <!-- Arguments for returning data -->
+        <argument
+            android:name="stopsData"
+            app:argType="com.nordresa.travel.models.StopsData"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
+        <argument
+            android:name="fieldType"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+
+        <action
+            android:id="@+id/actionHomeFragmentToJourneyFragment"
+            app:destination="@id/journeyFragment"/>
     </fragment>
+
+
+    <!-- search -->
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.nordresa.travel.ui.search.SearchFragment"
+        android:label="@string/Search"
+        tools:layout="@layout/fragment_search" >
+
+        <!-- Argument to know which field we're selecting for -->
+        <argument
+            android:name="fieldType"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
+        <action
+            android:id="@+id/action_searchFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/journeyFragment"
+        android:name="com.nordresa.travel.ui.journey.JourneyFragment"
+        android:label="@string/Journey"
+        tools:layout="@layout/fragment_journey"
+    >
+
+        <argument
+            android:name="journeyInput"
+            app:argType="com.nordresa.travel.models.JourneyInput"
+            app:nullable="false" />
+    </fragment>
+
+
+
+
+    <!-- Profile -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.nordresa.travel.ui.profile.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile" >
+
+        <action
+            android:id="@+id/action_profileFragment_to_SigninFragment"
+            app:destination="@id/signInFragment"
+            />
+
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/stopsFragment"
+        android:name="com.nordresa.travel.ui.StopsDataFragments"
+        android:label="@string/Stop_info"
+        tools:layout="@layout/fragment_stops_data">
+
+    </fragment>
+
+
 
     <!-- Sign In -->
     <fragment

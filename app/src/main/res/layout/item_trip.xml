@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="1dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/warm_gray"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Trip Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <!-- Transport Icon -->
+            <TextView
+                android:id="@+id/tvTransportIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="🚆"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/primary_app_color"
+                android:layout_marginEnd="12dp"
+                tools:text="🚆" />
+
+            <!-- Service Name -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvServiceName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="SJ Snabbtåg 441"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/on_background"
+                    tools:text="SJ Snabbtåg 441" />
+
+                <TextView
+                    android:id="@+id/tvTripType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Direct"
+                    android:textSize="12sp"
+                    android:textColor="@color/gold_accent"
+                    android:textStyle="bold"
+                    tools:text="Direct" />
+
+            </LinearLayout>
+
+            <!-- Duration -->
+            <TextView
+                android:id="@+id/tvDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3h32m"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/secondary_text_color"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="@color/off_white"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                tools:text="3h32m" />
+
+        </LinearLayout>
+
+        <!-- Time Information -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🕒"
+                android:textSize="16sp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/tvDepartureTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16:03"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/on_background"
+                tools:text="16:03" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" → "
+                android:textSize="16sp"
+                android:textColor="@color/primary_app_color"
+                android:layout_marginHorizontal="8dp" />
+
+            <TextView
+                android:id="@+id/tvArrivalTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="19:35"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/on_background"
+                tools:text="19:35" />
+
+        </LinearLayout>
+
+        <!-- Amenities -->
+        <LinearLayout
+            android:id="@+id/layoutAmenities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🎯"
+                android:textSize="14sp"
+                android:layout_marginEnd="4dp" />
+
+            <TextView
+                android:id="@+id/tvAmenities"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="WiFi | Bistro"
+                android:textSize="12sp"
+                android:textColor="@color/secondary_text_color"
+                tools:text="WiFi | Bistro" />
+
+            <!-- Price (optional) -->
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="249 SEK"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_app_color"
+                android:visibility="gone"
+                tools:text="249 SEK"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

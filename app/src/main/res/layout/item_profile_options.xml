@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8FAFC"
+    android:padding="10dp">
+
+    <!-- Modern Card Container -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/mainCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp"
+        app:strokeWidth="0dp"
+        android:background="#FF0000"
+        app:cardBackgroundColor="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="32dp">
+
+            <!-- Personal Information Section -->
+            <ImageButton
+                android:id="@+id/personalIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_person"
+                android:padding="4dp"
+                android:background="@drawable/circle_background"
+                android:scaleType="center"
+                android:contentDescription="@string/personal_icon"
+                app:tint="@color/light_black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/personalTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Personal Information"
+                android:textSize="18sp"
+                android:textColor="#111827"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toEndOf="@id/personalIcon"
+                app:layout_constraintTop_toTopOf="@id/personalIcon"
+                app:layout_constraintEnd_toStartOf="@id/personalArrow" />
+
+            <TextView
+                android:id="@+id/personalSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Manage your profile and account details"
+                android:textSize="14sp"
+                android:textColor="#6B7280"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@id/personalIcon"
+                app:layout_constraintTop_toBottomOf="@id/personalTitle"
+                app:layout_constraintEnd_toStartOf="@id/personalArrow" />
+
+            <ImageButton
+                android:id="@+id/personalArrow"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_right"
+                android:background="@null"
+                android:scaleType="center"
+                android:contentDescription="@string/personal_arrow"
+                app:tint="#D1D5DB"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/personalIcon"
+                app:layout_constraintBottom_toBottomOf="@id/personalSubtitle" />
+
+            <!-- Ripple Effect for Personal Info -->
+            <View
+                android:id="@+id/personalRipple"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginTop="-16dp"
+                android:layout_marginBottom="-16dp"
+                android:layout_marginStart="-16dp"
+                android:layout_marginEnd="-16dp"
+                app:layout_constraintStart_toStartOf="@id/personalIcon"
+                app:layout_constraintEnd_toEndOf="@id/personalArrow"
+                app:layout_constraintTop_toTopOf="@id/personalIcon"
+                app:layout_constraintBottom_toBottomOf="@id/personalSubtitle" />
+
+            <!-- Modern Spacer -->
+            <View
+                android:id="@+id/spacer1"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                app:layout_constraintTop_toBottomOf="@id/personalSubtitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+            <!-- Notifications Section -->
+            <ImageButton
+                android:id="@+id/notificationIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_notifications"
+                android:padding="4dp"
+                android:background="@drawable/circle_background"
+                android:scaleType="center"
+                android:contentDescription="@string/notification_icon"
+                app:tint="@color/light_black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spacer1" />
+
+            <TextView
+                android:id="@+id/notificationTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Notifications"
+                android:textSize="18sp"
+                android:textColor="#111827"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toEndOf="@id/notificationIcon"
+                app:layout_constraintTop_toTopOf="@id/notificationIcon"
+                app:layout_constraintEnd_toStartOf="@id/notificationArrow" />
+
+            <TextView
+                android:id="@+id/notificationSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Customize your notification preferences"
+                android:textSize="14sp"
+                android:textColor="#6B7280"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@id/notificationIcon"
+                app:layout_constraintTop_toBottomOf="@id/notificationTitle"
+                app:layout_constraintEnd_toStartOf="@id/notificationArrow" />
+
+            <ImageButton
+                android:id="@+id/notificationArrow"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_right"
+                android:background="@null"
+                android:scaleType="center"
+                android:contentDescription="@string/notification_arrow"
+                app:tint="#D1D5DB"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/notificationIcon"
+                app:layout_constraintBottom_toBottomOf="@id/notificationSubtitle" />
+
+            <View
+                android:id="@+id/notificationRipple"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginTop="-16dp"
+                android:layout_marginBottom="-16dp"
+                android:layout_marginStart="-16dp"
+                android:layout_marginEnd="-16dp"
+                app:layout_constraintStart_toStartOf="@id/notificationIcon"
+                app:layout_constraintEnd_toEndOf="@id/notificationArrow"
+                app:layout_constraintTop_toTopOf="@id/notificationIcon"
+                app:layout_constraintBottom_toBottomOf="@id/notificationSubtitle" />
+
+            <!-- Spacer -->
+            <View
+                android:id="@+id/spacer3"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                app:layout_constraintTop_toBottomOf="@id/notificationSubtitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- About Us Section -->
+            <ImageButton
+                android:id="@+id/aboutIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_info"
+                android:padding="4dp"
+                android:background="@drawable/circle_background"
+                android:scaleType="center"
+                android:contentDescription="@string/about_icon"
+                app:tint="@color/light_black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spacer3" />
+
+            <TextView
+                android:id="@+id/aboutTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="About Us"
+                android:textSize="18sp"
+                android:textColor="#111827"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toEndOf="@id/aboutIcon"
+                app:layout_constraintTop_toTopOf="@id/aboutIcon"
+                app:layout_constraintEnd_toStartOf="@id/aboutArrow" />
+
+            <TextView
+                android:id="@+id/aboutSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Learn more about our company"
+                android:textSize="14sp"
+                android:textColor="#6B7280"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@id/aboutIcon"
+                app:layout_constraintTop_toBottomOf="@id/aboutTitle"
+                app:layout_constraintEnd_toStartOf="@id/aboutArrow" />
+
+            <ImageButton
+                android:id="@+id/aboutArrow"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_right"
+                android:background="@null"
+                android:scaleType="center"
+                android:contentDescription="@string/about_arrow"
+                app:tint="#D1D5DB"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/aboutIcon"
+                app:layout_constraintBottom_toBottomOf="@id/aboutSubtitle" />
+
+            <View
+                android:id="@+id/aboutRipple"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginTop="-16dp"
+                android:layout_marginBottom="-16dp"
+                android:layout_marginStart="-16dp"
+                android:layout_marginEnd="-16dp"
+                app:layout_constraintStart_toStartOf="@id/aboutIcon"
+                app:layout_constraintEnd_toEndOf="@id/aboutArrow"
+                app:layout_constraintTop_toTopOf="@id/aboutIcon"
+                app:layout_constraintBottom_toBottomOf="@id/aboutSubtitle" />
+
+            <!-- Spacer -->
+            <View
+                android:id="@+id/spacer4"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                app:layout_constraintTop_toBottomOf="@id/aboutSubtitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Logout Section with Modern Styling -->
+            <ImageButton
+                android:id="@+id/logoutIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_logout"
+                android:padding="4dp"
+                android:background="@drawable/circle_background"
+                android:scaleType="center"
+                android:contentDescription="@string/logout_icon"
+                app:tint="@color/light_black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spacer4" />
+
+            <TextView
+                android:id="@+id/logoutTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:textSize="18sp"
+                android:textColor="#DC2626"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginStart="20dp"
+                app:layout_constraintStart_toEndOf="@id/logoutIcon"
+                app:layout_constraintTop_toTopOf="@id/logoutIcon"
+                app:layout_constraintEnd_toStartOf="@id/logoutArrow" />
+
+            <TextView
+                android:id="@+id/logoutSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Sign out of your account"
+                android:textSize="14sp"
+                android:textColor="#6B7280"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@id/logoutIcon"
+                app:layout_constraintTop_toBottomOf="@id/logoutTitle"
+                app:layout_constraintEnd_toStartOf="@id/logoutArrow" />
+
+            <ImageButton
+                android:id="@+id/logoutArrow"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_right"
+                android:background="@null"
+                android:scaleType="center"
+                android:contentDescription="@string/more_info_arrow"
+                app:tint="#DC2626"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/logoutIcon"
+                app:layout_constraintBottom_toBottomOf="@id/logoutSubtitle" />
+
+            <View
+                android:id="@+id/logoutRipple"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginTop="-16dp"
+                android:layout_marginBottom="-16dp"
+                android:layout_marginStart="-16dp"
+                android:layout_marginEnd="-16dp"
+                app:layout_constraintStart_toStartOf="@id/logoutIcon"
+                app:layout_constraintEnd_toEndOf="@id/logoutArrow"
+                app:layout_constraintTop_toTopOf="@id/logoutIcon"
+                app:layout_constraintBottom_toBottomOf="@id/logoutSubtitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

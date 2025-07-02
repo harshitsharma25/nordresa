@@ -20,4 +20,7 @@
     <color name="text_color">#ABADB1</color>
     <color name="secondary_text_color">#7A8089</color>
     <color name="snackbar_error_color">#F72400</color>
+
+    <color name="off_white">#F8F8F8</color>
+    <color name="light_black">#787878</color>
 </resources>

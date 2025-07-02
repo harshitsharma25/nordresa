@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -13,7 +14,9 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.nordresa.travel.R
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.firestore.FirebaseFirestore
 import com.nordresa.travel.databinding.FragmentSignUpBinding
+import com.nordresa.travel.models.User
 import com.nordresa.travel.ui.base.BaseFragment
 
 class SignUpFragment :  BaseFragment<FragmentSignUpBinding>() {
@@ -71,6 +74,7 @@ class SignUpFragment :  BaseFragment<FragmentSignUpBinding>() {
         val progressBar: ProgressBar = binding.pbSignUp
 
         if (validateForm(name, email, password)) {
+            binding.progressOverlay.visibility = View.VISIBLE
             showProgressBar(progressBar)
             binding.btnSignUp.isEnabled = false
 
@@ -81,8 +85,17 @@ class SignUpFragment :  BaseFragment<FragmentSignUpBinding>() {
                     binding.btnSignUp.isEnabled = true
 
                     if (task.isSuccessful && isAdded) {
+
+                        val firebaseUser = task.result?.user
+                        val uid = firebaseUser?.uid
+
+                        if (uid != null) {
+                            AddUserToFirestore(uid, name, email)
+                        }
+
                         Toast.makeText(requireContext(), "Account created successfully!", Toast.LENGTH_SHORT).show()
                         hideProgressBar(progressBar)
+                        binding.progressOverlay.visibility = View.GONE
                         // Optional: Add short delay if UI looks jumpy
                         Handler(Looper.getMainLooper()).postDelayed({
                             ProceedToHomeFragment()
@@ -93,10 +106,33 @@ class SignUpFragment :  BaseFragment<FragmentSignUpBinding>() {
                 }
                 .addOnFailureListener {
                     hideProgressBar(progressBar)
+                    binding.progressOverlay.visibility = View.GONE
                     binding.btnSignUp.isEnabled = true
                 }
         }
     }
+
+    private fun AddUserToFirestore(uid: String, name: String, email: String) {
+        val user = User(
+            id = uid,
+            name = name,
+            email = email,
+            image = "",         // You can update this later if user uploads a photo
+            mobile = 0          // Default or take input from EditText
+        )
+
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(uid)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d("Firestore", "User document added successfully.")
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Failed to add user document.", e)
+            }
+    }
+
 
     private fun ProceedToHomeFragment(){
         findNavController().navigate(R.id.action_signUpFragment_to_homeFragment)

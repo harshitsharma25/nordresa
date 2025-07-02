@@ -35,5 +35,8 @@
     <string name="notification_icon">notification_icon</string>
     <string name="delivery_arrow">delivery_arrow</string>
     <string name="personal_arrow">personal_arrow</string>
+    <string name="Stop_info">Stops Info</string>
+    <string name="plan_your_journey">Plan Your Journey</string>
+    <string name="Journey">Journey</string>
 
 </resources>

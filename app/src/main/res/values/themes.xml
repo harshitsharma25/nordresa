@@ -9,7 +9,7 @@
         <item name="colorOnPrimary">@color/on_primary</item>
 
         <!-- Secondary Colors -->
-        <item name="colorSecondary">@color/warm_gray</item>
+        <item name="colorSecondary">@color/on_primary</item>
         <item name="colorOnSecondary">@color/on_secondary</item>
 
         <!-- Background & Surface -->
