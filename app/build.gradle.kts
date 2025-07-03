@@ -18,6 +18,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        manifestPlaceholders["MAPS_API_KEY"] = project.findProperty("MAPS_API_KEY") ?: ""
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -88,12 +89,16 @@ dependencies {
 
     // KSP - Updated version
     implementation ("com.google.devtools.ksp:symbol-processing-api:2.0.10-1.0.24")
-
     implementation ("com.squareup.okhttp3:logging-interceptor:4.12.0")
-
     implementation ("io.insert-koin:koin-android:3.5.3")
 
-    // safe-args
+    // map sdk
+    // for map services
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
+
+    // Kotlin extensions (optional)
+    implementation("com.google.maps.android:maps-ktx:3.4.0") // Kotlin extensions for Maps
+
 
 
 

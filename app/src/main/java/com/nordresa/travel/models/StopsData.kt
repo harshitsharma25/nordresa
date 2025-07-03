@@ -9,5 +9,5 @@ data class StopsData(
     val extId: String,
     val lat: Double,
     val lon: Double,
-    val transportTypes: List<String> // <- e.g., ["2", "4", "16"]
+    val transportTypes: List<String> = emptyList() // <- e.g., ["2", "4", "16"]
 ) : Parcelable

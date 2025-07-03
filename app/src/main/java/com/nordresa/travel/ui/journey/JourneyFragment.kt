@@ -1,32 +1,44 @@
 package com.nordresa.travel.ui.journey
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.activityViewModels
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import com.nordresa.travel.databinding.FragmentJourneyBinding
 import com.nordresa.travel.ui.base.BaseFragment
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.launch
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.Dot
+import com.google.android.gms.maps.model.Gap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
+import com.nordresa.travel.R
+import com.nordresa.travel.models.StopsData
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class JourneyFragment : BaseFragment<FragmentJourneyBinding>() {
+class JourneyFragment : BaseFragment<FragmentJourneyBinding>(), OnMapReadyCallback {
 
     private val args: JourneyFragmentArgs by navArgs()
-    private val viewModel: JourneyViewmodel by activityViewModels()
-
-    private lateinit var tripsAdapter: TripsAdapter
+    private val viewModel: JourneyViewModel by viewModel()
+    private var googleMap: GoogleMap? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentJourneyBinding.inflate(layoutInflater)
+        binding = FragmentJourneyBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -34,182 +46,113 @@ class JourneyFragment : BaseFragment<FragmentJourneyBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         setupActionBar()
-        setupRecyclerView()
-        setupObservers()
+        initializeJourneyData()
+        setupMapFragment()
         setupClickListeners()
+    }
 
-        // Initialize journey data and automatically load everything
-        initializeJourney()
+    private fun initializeJourneyData() {
+        val departure = args.journeyInput.departure
+        val destination = args.journeyInput.destination
+
+        viewModel.departureLatLng = LatLng(departure.lat, departure.lon)
+        viewModel.destinationLatLng = LatLng(destination.lat, destination.lon)
+
+        println("--> Journey initialized: ${departure.name} → ${destination.name}")
+    }
+
+    private fun setupMapFragment() {
+        val fragment = childFragmentManager.findFragmentById(R.id.mapContainer) as SupportMapFragment
+        fragment.getMapAsync(this)
+    }
+
+    override fun onMapReady(map: GoogleMap) {
+        googleMap = map
+
+        googleMap?.apply {
+            uiSettings.isZoomControlsEnabled = true
+            uiSettings.isMyLocationButtonEnabled = false
+            uiSettings.isMapToolbarEnabled = false
+        }
+
+        drawRouteOnMap()
+    }
+
+    private fun drawRouteOnMap() {
+        val departure = args.journeyInput.departure
+        val destination = args.journeyInput.destination
+        val departureLatLng = viewModel.departureLatLng
+        val destinationLatLng = viewModel.destinationLatLng
+
+        if (departureLatLng != null && destinationLatLng != null && googleMap != null) {
+            googleMap?.apply {
+                clear()
+
+                addMarker(
+                    MarkerOptions()
+                        .position(departureLatLng)
+                        .title(departure.name)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                )
+
+                addMarker(
+                    MarkerOptions()
+                        .position(destinationLatLng)
+                        .title(destination.name)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                )
+
+                addPolyline(
+                    PolylineOptions()
+                        .add(departureLatLng, destinationLatLng)
+                        .color(ContextCompat.getColor(requireContext(), R.color.primary_app_color))
+                        .width(8f)
+                        .pattern(listOf(Dot(), Gap(10f)))
+                )
+
+                val bounds = LatLngBounds.Builder()
+                    .include(departureLatLng)
+                    .include(destinationLatLng)
+                    .build()
+
+                binding.root.post {
+                    try {
+                        animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150))
+                    } catch (e: Exception) {
+                        moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150))
+                    }
+                }
+            }
+
+            binding.mapPlaceholder.visibility = View.GONE
+        }
     }
 
     private fun setupActionBar() {
-        val toolbarComponent = (activity as AppCompatActivity)
-        toolbarComponent.setSupportActionBar(binding.journeyToolbar)
-        toolbarComponent.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val activity = requireActivity() as AppCompatActivity
+        activity.setSupportActionBar(binding.journeyToolbar)
+        activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Set dynamic title based on route
-        val departure = args.journeyInput.departure.name
-        val destination = args.journeyInput.destination.name
-        toolbarComponent.supportActionBar?.title = "$departure → $destination"
+        val title = "${args.journeyInput.departure.name} → ${args.journeyInput.destination.name}"
+        activity.supportActionBar?.title = title
 
         binding.journeyToolbar.setNavigationOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
     }
 
-    private fun setupRecyclerView() {
-        tripsAdapter = TripsAdapter { trip ->
-            onTripSelected(trip)
-        }
-
-        binding.recyclerViewTrips.apply {
-            adapter = tripsAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-            setHasFixedSize(true)
-        }
-    }
-
-    private fun setupObservers() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.journeyState.collect { state ->
-                updateUI(state)
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.mapState.collect { mapState ->
-                updateMapUI(mapState)
-            }
-        }
-    }
-
     private fun setupClickListeners() {
         binding.btnRetry.setOnClickListener {
             searchTrips()
-            initializeMap()
         }
-    }
-
-    private fun initializeJourney() {
-        val journeyInput = args.journeyInput
-
-        // Initialize viewmodel with journey data
-        val departure = Station(
-            name = journeyInput.departure.name,
-            latitude = journeyInput.departure.latitude,
-            longitude = journeyInput.departure.longitude,
-            id = journeyInput.departure.id
-        )
-
-        val destination = Station(
-            name = journeyInput.destination.name,
-            latitude = journeyInput.destination.latitude,
-            longitude = journeyInput.destination.longitude,
-            id = journeyInput.destination.id
-        )
-
-        viewModel.initializeJourney(departure, destination)
-
-        // Automatically start both map loading and trip search
-        initializeMap()
-        searchTrips()
-
-        println("--> Journey initialized: ${departure.name} → ${destination.name}")
-        println("--> Departure coords: ${departure.latitude}, ${departure.longitude}")
-        println("--> Destination coords: ${destination.latitude}, ${destination.longitude}")
-    }
-
-    private fun initializeMap() {
-        val departure = args.journeyInput.departure
-        val destination = args.journeyInput.destination
-
-        // Initialize map with coordinates
-        viewModel.initializeMap(
-            departureCoords = Pair(departure.latitude, departure.longitude),
-            destinationCoords = Pair(destination.latitude, destination.longitude)
-        )
-
-        // Setup map SDK here
-        setupMapView()
-    }
-
-    private fun setupMapView() {
-        // TODO: Initialize your Map SDK here
-        // Example for MapBox or Google Maps:
-        /*
-        val mapView = MapView(requireContext())
-        binding.mapContainer.removeAllViews()
-        binding.mapContainer.addView(mapView)
-
-        mapView.onCreate(savedInstanceState)
-        mapView.getMapAsync { map ->
-            // Configure map
-            val departure = args.journeyInput.departure
-            val destination = args.journeyInput.destination
-
-            // Add markers
-            map.addMarker(MarkerOptions()
-                .position(LatLng(departure.latitude, departure.longitude))
-                .title(departure.name))
-
-            map.addMarker(MarkerOptions()
-                .position(LatLng(destination.latitude, destination.longitude))
-                .title(destination.name))
-
-            // Draw route line
-            drawRouteLine(map, departure, destination)
-
-            // Fit bounds to show both stations
-            val bounds = LatLngBounds.Builder()
-                .include(LatLng(departure.latitude, departure.longitude))
-                .include(LatLng(destination.latitude, destination.longitude))
-                .build()
-            map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))
-
-            // Hide placeholder
-            binding.mapPlaceholder.isVisible = false
-        }
-        */
-
-        // For now, simulate map loading
-        simulateMapLoading()
-    }
-
-    private fun simulateMapLoading() {
-        // Simulate map loading delay
-        binding.mapPlaceholder.postDelayed({
-            if (isAdded) {
-                binding.mapPlaceholder.isVisible = false
-                // You can add a simple route visualization here
-                addSimpleRouteVisualization()
-            }
-        }, 2000)
-    }
-
-    private fun addSimpleRouteVisualization() {
-        // TODO: Add actual map implementation
-        // For now, you can add a simple line drawing or use a WebView with a map
-        println("--> Map loaded successfully")
     }
 
     private fun searchTrips() {
+        showLoadingState()
         val departure = args.journeyInput.departure
         val destination = args.journeyInput.destination
-
-        // Show loading state
-        showLoadingState()
-
-        // Call ResRobot API through ViewModel
-        viewModel.searchTrips(
-            departureId = departure.id ?: "",
-            destinationId = destination.id ?: "",
-            departureLat = departure.latitude,
-            departureLon = departure.longitude,
-            destinationLat = destination.latitude,
-            destinationLon = destination.longitude
-        )
-
         println("--> Searching trips from ${departure.name} to ${destination.name}")
+        // viewModel.searchTrips(...)
     }
 
     private fun showLoadingState() {
@@ -221,39 +164,6 @@ class JourneyFragment : BaseFragment<FragmentJourneyBinding>() {
         }
     }
 
-    private fun updateUI(state: JourneyState) {
-        binding.apply {
-            // Loading state
-            loadingLayout.isVisible = state.isLoading
-
-            // Success state - show trips
-            if (state.trips.isNotEmpty()) {
-                recyclerViewTrips.isVisible = true
-                tvAvailableTripsHeader.isVisible = true
-                errorLayout.isVisible = false
-
-                tripsAdapter.submitList(state.trips)
-                println("--> Found ${state.trips.size} trips")
-
-            } else if (!state.isLoading && state.error == null) {
-                // No trips found but no error
-                showErrorState("No trips found for this route")
-
-            } else if (!state.isLoading && state.trips.isEmpty()) {
-                // Still loading or no results yet
-                if (!state.isLoading) {
-                    showErrorState("No trips available")
-                }
-            }
-
-            // Error state
-            if (state.error != null) {
-                showErrorState(state.error)
-                println("--> Error: ${state.error}")
-            }
-        }
-    }
-
     private fun showErrorState(errorMessage: String) {
         binding.apply {
             recyclerViewTrips.isVisible = false
@@ -261,62 +171,5 @@ class JourneyFragment : BaseFragment<FragmentJourneyBinding>() {
             errorLayout.isVisible = true
             tvErrorMessage.text = errorMessage
         }
-    }
-
-    private fun updateMapUI(mapState: MapState) {
-        if (mapState.isMapReady) {
-            binding.mapPlaceholder.isVisible = false
-            println("--> Map is ready")
-        }
-
-        // Handle route polyline if available
-        mapState.routePolyline?.let { polyline ->
-            // Draw route on map
-            drawRouteOnMap(polyline)
-        }
-    }
-
-    private fun drawRouteOnMap(polyline: String) {
-        // TODO: Implement route drawing on map
-        println("--> Drawing route: $polyline")
-    }
-
-    private fun onTripSelected(trip: TripInfo) {
-        // Handle trip selection - navigate to trip details or booking
-        println("--> Trip selected: ${trip.serviceName} at ${trip.departureTime}")
-
-        // Example: Navigate to trip details
-        // findNavController().navigate(
-        //     JourneyFragmentDirections.actionJourneyFragmentToTripDetailsFragment(trip)
-        // )
-
-        // Or show bottom sheet with trip details
-        showTripDetailsBottomSheet(trip)
-    }
-
-    private fun showTripDetailsBottomSheet(trip: TripInfo) {
-        // TODO: Implement trip details bottom sheet
-        // For now, just log the trip details
-        println("--> Trip Details:")
-        println("   Service: ${trip.serviceName}")
-        println("   Time: ${trip.departureTime} → ${trip.arrivalTime}")
-        println("   Duration: ${trip.duration}")
-        println("   Type: ${trip.tripType}")
-        println("   Amenities: ${trip.amenities.joinToString(", ")}")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // Resume map if needed
-    }
-
-    override fun onPause() {
-        super.onPause()
-        // Pause map if needed
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // Clean up map resources if needed
     }
 }

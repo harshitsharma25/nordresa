@@ -9,5 +9,9 @@
         <item name="cornerSizeBottomRight">16dp</item>
     </style>
 
+    <style name="ToolbarTitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">16sp</item> <!-- or 14sp, etc. -->
+    </style>
+
 
 </resources>

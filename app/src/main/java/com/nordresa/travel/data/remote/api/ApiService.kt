@@ -17,8 +17,8 @@ interface ApiService {
 
     @GET("trip")
     suspend fun searchTrips(
-        @Query("originId") originId: String? = null,
-        @Query("destId") destId: String? = null,
+        @Query("originId") originId: String,
+        @Query("destId") destId: String,
         @Query("format") format: String = "json",
         @Query("accessId") accessId: String = Constants.RESROBOT_API_KEY
     ): RoutePlannerResponse
