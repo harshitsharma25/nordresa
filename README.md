@@ -59,4 +59,4 @@ The app helps users plan their journey between stations with ease, view their ro
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/nordresa.git
+https://github.com/harshitsharma25/nordresa.git
