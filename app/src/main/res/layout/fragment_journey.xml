@@ -127,7 +127,9 @@
                 tools:listitem="@layout/item_trip"
                 tools:visibility="visible"
                 android:nestedScrollingEnabled="false"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:clipToPadding="false"
+                />
 
             <!-- Error -->
             <LinearLayout
@@ -176,4 +178,27 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <!-- Progress overlay moved to the end to ensure it appears on top -->
+    <FrameLayout
+        android:id="@+id/progressOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80000000"
+        android:visibility="gone"
+        android:elevation="10dp"
+        tools:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ProgressBar
+            android:id="@+id/pbJourney"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/black"/>
+    </FrameLayout>
 </LinearLayout>

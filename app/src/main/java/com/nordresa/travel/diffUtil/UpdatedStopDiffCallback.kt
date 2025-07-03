@@ -1,6 +1,7 @@
 package com.nordresa.travel.diffUtil
 
 import androidx.recyclerview.widget.DiffUtil
+import com.nordresa.travel.models.JourneyData
 import com.nordresa.travel.models.StopsData
 
 

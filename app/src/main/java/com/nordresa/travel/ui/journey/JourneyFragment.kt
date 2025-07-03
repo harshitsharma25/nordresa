@@ -6,12 +6,18 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import com.nordresa.travel.databinding.FragmentJourneyBinding
 import com.nordresa.travel.ui.base.BaseFragment
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -25,6 +31,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.nordresa.travel.R
 import com.nordresa.travel.models.StopsData
+import com.nordresa.travel.ui.search.FilteredStopsAdapter
+import com.nordresa.travel.ui.search.StopUiState
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class JourneyFragment : BaseFragment<FragmentJourneyBinding>(), OnMapReadyCallback {
@@ -32,6 +41,8 @@ class JourneyFragment : BaseFragment<FragmentJourneyBinding>(), OnMapReadyCallba
     private val args: JourneyFragmentArgs by navArgs()
     private val viewModel: JourneyViewModel by viewModel()
     private var googleMap: GoogleMap? = null
+    private lateinit var mAdapter : JourneyAdapter
+    private lateinit var progressBar : ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,11 +55,17 @@ class JourneyFragment : BaseFragment<FragmentJourneyBinding>(), OnMapReadyCallba
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressBar = binding.pbJourney
 
         setupActionBar()
+        setupRecyclerView()
         initializeJourneyData()
         setupMapFragment()
-        setupClickListeners()
+//        setupClickListeners()
+
+
+        observeJourneyData()
+//        searchTripsFromApi()
     }
 
     private fun initializeJourneyData() {
@@ -58,8 +75,64 @@ class JourneyFragment : BaseFragment<FragmentJourneyBinding>(), OnMapReadyCallba
         viewModel.departureLatLng = LatLng(departure.lat, departure.lon)
         viewModel.destinationLatLng = LatLng(destination.lat, destination.lon)
 
+        viewModel.fetchJourneyData(originId = departure.extId, destinationId = destination.extId)
+
         println("--> Journey initialized: ${departure.name} → ${destination.name}")
     }
+
+    private fun setupRecyclerView(){
+        mAdapter = JourneyAdapter(requireContext())
+        binding.recyclerViewTrips.apply {
+            adapter = mAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
+    fun observeJourneyData(){
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.uiState.collect { state ->
+                        // Hide progress bar for all states except Loading
+                        if (state !is JourneyUiState.Loading) {
+                            hideProgressBar(progressBar)
+                            hideLoadingState()
+                            binding.progressOverlay.visibility = View.GONE
+                        }
+
+                        when (state) {
+                            is JourneyUiState.RouteData -> {
+                                println("--> data is: ${state.stops}")
+                                binding.recyclerViewTrips.visibility = View.VISIBLE
+                                mAdapter.submitList(state.stops)
+                            }
+                            JourneyUiState.Empty -> {
+                                binding.recyclerViewTrips.visibility = View.VISIBLE
+                                mAdapter.submitList(emptyList())
+                            }
+                            JourneyUiState.Loading -> {
+                                showProgressBar(progressBar)
+                                showLoadingState()
+                                binding.progressOverlay.visibility = View.VISIBLE
+                            }
+                            is JourneyUiState.Error -> {
+                                binding.recyclerViewTrips.visibility = View.VISIBLE
+                                // Handle error - maybe show a toast or error message
+                                println("--> Error: ${state.message}")
+                                mAdapter.submitList(emptyList())
+                            }
+                            is JourneyUiState.NoNetwork -> {
+                                binding.recyclerViewTrips.visibility = View.VISIBLE
+                                // Handle no network - maybe show a toast or error message
+                                println("--> No network available")
+                                mAdapter.submitList(emptyList())
+                            }
+                        }
+                    }
+                }
+            }
+    }
+
 
     private fun setupMapFragment() {
         val fragment = childFragmentManager.findFragmentById(R.id.mapContainer) as SupportMapFragment
@@ -139,7 +212,21 @@ class JourneyFragment : BaseFragment<FragmentJourneyBinding>(), OnMapReadyCallba
         binding.journeyToolbar.setNavigationOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
+
+        // 🔧 Make title TextView multiline
+        for (i in 0 until binding.journeyToolbar.childCount) {
+            val view = binding.journeyToolbar.getChildAt(i)
+            if (view is TextView && view.text == title) {
+                view.apply {
+                    maxLines = 3
+                    ellipsize = null // 🔓 disable truncation
+                    isSingleLine = false
+                }
+                break
+            }
+        }
     }
+
 
     private fun setupClickListeners() {
         binding.btnRetry.setOnClickListener {
@@ -160,6 +247,14 @@ class JourneyFragment : BaseFragment<FragmentJourneyBinding>(), OnMapReadyCallba
             loadingLayout.isVisible = true
             recyclerViewTrips.isVisible = false
             tvAvailableTripsHeader.isVisible = false
+            errorLayout.isVisible = false
+        }
+    }
+    private fun hideLoadingState() {
+        binding.apply {
+            loadingLayout.isVisible = false
+            recyclerViewTrips.isVisible = true
+            tvAvailableTripsHeader.isVisible = true
             errorLayout.isVisible = false
         }
     }

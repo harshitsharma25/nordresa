@@ -5,10 +5,10 @@
         android:icon="@drawable/ic_plan_your_journey"
         android:title="@string/plan_your_journey"/>
 
-    <item
-        android:id="@+id/stopsFragment"
-        android:icon="@drawable/ic_stop_info"
-        android:title="@string/Stop_info"/>
+<!--    <item-->
+<!--        android:id="@+id/stopsFragment"-->
+<!--        android:icon="@drawable/ic_stop_info"-->
+<!--        android:title="@string/Stop_info"/>-->
 
     <item
         android:id="@+id/profileFragment"

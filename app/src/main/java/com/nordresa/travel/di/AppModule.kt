@@ -15,5 +15,5 @@ val appModule = module {
     // Provide ViewModel with Repository injected
     // Provide ViewModels separately
     viewModel { SearchViewModel(get()) }
-    viewModel { JourneyViewModel() }
+    viewModel { JourneyViewModel(get()) }
 }

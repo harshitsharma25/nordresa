@@ -102,6 +102,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             if( (viewModel.departureStopsData != null) && (viewModel.destinationStopsData != null) && (viewModel.departureStopsData?.extId != viewModel.destinationStopsData?.extId)){
                 val journeyInput = JourneyInput(departure = viewModel.departureStopsData!!, destination = viewModel.destinationStopsData!!)
                 val action = HomeFragmentDirections.actionHomeFragmentToJourneyFragment(journeyInput)
+
                 findNavController().navigate(action)
             } else{
                 showErrorSnackBar("Departure and Destination Stations Can't be Same")
